@@ -5,15 +5,25 @@ import com.miaoshaproject.dao.UserDOMapper;
 import com.miaoshaproject.dao.UserpasswordDOMapper;
 import com.miaoshaproject.dataobject.UserDO;
 import com.miaoshaproject.dataobject.UserpasswordDO;
+import com.miaoshaproject.error.BusinessException;
+import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.service.UserService;
 import com.miaoshaproject.service.model.UserModel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import sun.awt.EmbeddedFrame;
+
+import java.util.prefs.BackingStoreException;
 
 @Service
+
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -29,6 +39,57 @@ public class UserServiceImpl implements UserService {
       UserpasswordDO userpasswordDO =userpasswordDOMapper.selectByUserId(userDO.getId());
       return convertFromDataObject(userDO,userpasswordDO);
     }
+
+    @Override
+    @Transactional
+    public void register(UserModel userModel) throws BusinessException {
+        if (userModel == null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+      /*  ValidationResult result = validator.validate(userModel);
+        if (result.isHasErrors()){
+            throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg);
+        }*/
+       if (StringUtils.isEmpty(userModel.getName())
+             || userModel.getGender() == null
+              || userModel.getAge() == null
+              || StringUtils.isEmpty(userModel.getTelphone())){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+
+        //实现model-》dataobject方法
+        UserDO userDO = convertFromModel(userModel);
+
+
+        try {
+            userDOMapper.insertSelective(userDO);
+
+        } catch (DuplicateKeyException ex) {
+           throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"手机号已重复注册");
+        }
+
+        UserpasswordDO userpasswordDO = convertPasswordFromMode(userModel,userDO);
+        userpasswordDOMapper.insertSelective(userpasswordDO);
+        return;
+    }
+    private UserpasswordDO convertPasswordFromMode(UserModel userModel,UserDO userDO){
+        if (userModel == null){
+            return null;
+        }
+        UserpasswordDO userpasswordDO = new UserpasswordDO();
+        userpasswordDO.setEncrptPassword(userModel.getEncrptPassword());
+        userpasswordDO.setUserid(userDO.getId());
+        return userpasswordDO;
+    }
+    private UserDO convertFromModel(UserModel userModel){
+        if (userModel == null){
+            return null;
+        }
+        UserDO userDO = new UserDO();
+        BeanUtils.copyProperties(userModel,userDO);
+        return  userDO;
+    }
+
     private UserModel convertFromDataObject(UserDO userDO, UserpasswordDO userpasswordDO){
         if(userDO == null){
             return null;
