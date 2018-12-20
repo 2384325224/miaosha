@@ -1,7 +1,5 @@
 package com.miaoshaproject.controller;
 
-
-
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.respnose.CommonReturnType;
@@ -20,7 +18,7 @@ import java.util.Map;
 
 @Controller("user")
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
@@ -34,6 +32,7 @@ public class UserController {
         //userModel.setEncrptPassword("123");
        //若获取的对应用户信息不存在
        if (userModel == null){
+          // userModel.setEncrptPassword("123");
             throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
            //throw new Exception();
        }
@@ -51,18 +50,5 @@ public class UserController {
         BeanUtils.copyProperties(userModel,userVO);
        return userVO;
     }
-    //定义exceptionhandler解决未被controller层吸收的exception
-  /*  @ExceptionHandler(Exception.class)
-   @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-   public Object handlerException(HttpServletRequest request,Exception ex){
-       BusinessException businessException = (BusinessException)ex;
-      CommonReturnType commonReturnType = new CommonReturnType();
-      commonReturnType.setStatus("fail");
-        Map<String,Object> responseData = new HashMap<>();
-        responseData.put("errCode",businessException.getErrCode());
-        responseData.put("errMsg",businessException.getErrMsg());
-      commonReturnType.setData(responseData);
-       return commonReturnType;
-   }*/
+
 }
