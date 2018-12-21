@@ -9,7 +9,10 @@ import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.service.UserService;
 import com.miaoshaproject.service.model.UserModel;
+import com.miaoshaproject.validator.ValidationResult;
+import com.miaoshaproject.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.BeanUtils;
 
 
@@ -18,9 +21,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import sun.awt.EmbeddedFrame;
 
-import java.util.prefs.BackingStoreException;
 
 @Service
 
@@ -30,6 +31,10 @@ public class UserServiceImpl implements UserService {
     private UserDOMapper userDOMapper;
     @Autowired
     private UserpasswordDOMapper userpasswordDOMapper;
+
+    @Autowired
+   private ValidatorImpl validatorImpl;
+
     @Override
     public  UserModel getUserById(Integer id){
       UserDO userDO=  userDOMapper.selectByPrimaryKey(id);
@@ -46,16 +51,16 @@ public class UserServiceImpl implements UserService {
         if (userModel == null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-      /*  ValidationResult result = validator.validate(userModel);
+        ValidationResult result = validatorImpl.validate(userModel);
         if (result.isHasErrors()){
-            throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg);
-        }*/
-       if (StringUtils.isEmpty(userModel.getName())
+            throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
+       /*if (StringUtils.isEmpty(userModel.getName())
              || userModel.getGender() == null
               || userModel.getAge() == null
               || StringUtils.isEmpty(userModel.getTelphone())){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
-        }
+        }*/
 
         //实现model-》dataobject方法
         UserDO userDO = convertFromModel(userModel);
