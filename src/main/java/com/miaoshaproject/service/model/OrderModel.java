@@ -13,12 +13,10 @@ public class OrderModel {
 
     //购买数量
     private Integer amount;
+    private BigDecimal itemPrice;
 
     //购买金额
     private BigDecimal orderPrice;
-
-
-
 
     public Integer getAmount() {
         return amount;
@@ -58,5 +56,13 @@ public class OrderModel {
 
     public void setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
+    }
+
+    public BigDecimal getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(BigDecimal itemPrice) {
+        this.itemPrice = itemPrice;
     }
 }

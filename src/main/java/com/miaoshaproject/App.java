@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication(scanBasePackages = {"com.miaoshaproject"})
-//@EnableAutoConfiguration
+//@EnableAutoConfiguration //自动化的配置spring boot 项目
 
 @RestController
-@MapperScan("com.miaoshaproject.dao")
+//@MapperScan("com.miaoshaproject.dao")
 
 public class App 
 {
