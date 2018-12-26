@@ -10,7 +10,8 @@ public class OrderModel {
     private Integer userId;
     //购买的商品ID
     private Integer itemId;
-
+    //活动ID
+    private Integer promoId;
     //购买数量
     private Integer amount;
     private BigDecimal itemPrice;
@@ -64,5 +65,13 @@ public class OrderModel {
 
     public void setItemPrice(BigDecimal itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public Integer getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(Integer promoId) {
+        this.promoId = promoId;
     }
 }
