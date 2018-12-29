@@ -16,13 +16,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.lang.StringBuilder;
+import java.util.Date;
 
 
 @Service
@@ -100,13 +100,13 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime now = LocalDateTime.now();
         System.out.println(now.format(DateTimeFormatter.ISO_DATE).replace("-",""));
     }*/
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+   // @Transactional(propagation = Propagation.REQUIRES_NEW)
     private String generateOrderNo(){
 
         //订单号有16位
         StringBuilder stringBuilder = new StringBuilder();
         //前8位为时间信息，年月日
-       // Date date = new Date();
+        Date date = new Date();
         LocalDateTime now =LocalDateTime.now();
         System.out.println(now.format(DateTimeFormatter.ISO_DATE).replace("-",","));
         //中间6位为自增序列

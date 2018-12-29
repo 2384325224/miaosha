@@ -33,6 +33,8 @@ public interface PromoDOMapper {
      *
      * @mbg.generated Tue Dec 25 21:04:50 CST 2018
      */
+
+    PromoDO getPromoByItemId(Integer itemId);
     PromoDO selectByItemId(Integer id);
     PromoDO selectByPrimaryKey(Integer id);
 

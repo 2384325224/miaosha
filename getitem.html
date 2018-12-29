@@ -113,7 +113,7 @@
                 });
                 return false;
             });
-        });
+
 
            //获取商品详情
             $.ajax({
@@ -121,7 +121,7 @@
 
                 url:"http://localhost:8090/item/getItem",
                 data:{
-                    "id":getParam("id"),
+                    "id":getParam("id")
                 },
                 //设置跨域求情
                 xhrFields:{withCredentials:true},
@@ -161,7 +161,7 @@
             }
             $("#promoStartDate").text("秒杀活动将于："+g_itemVO.startDate+"开始售卖,倒计时"+delta +"秒");
             $("#promoPrice").text(g_itemVO.promoPrice);
-
+            console.info(99);
 
             $("#creatorder").atrr("disabled",true);
         }else if (g_itemVO.promoStatus == 2) {

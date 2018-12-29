@@ -2,11 +2,13 @@ package com.miaoshaproject.service.impl;
 
 import com.miaoshaproject.dao.ItemDOMapper;
 import com.miaoshaproject.dao.ItemStockDOMapper;
+import com.miaoshaproject.dao.PromoDOMapper;
 import com.miaoshaproject.dataobject.ItemDO;
 import com.miaoshaproject.dataobject.ItemStockDO;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.service.ItemService;
+
 import com.miaoshaproject.service.PromoService;
 import com.miaoshaproject.service.model.ItemModel;
 import com.miaoshaproject.service.model.PromoModel;
@@ -32,8 +34,11 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
 
-    @Autowired
+   @Autowired
     private PromoService promoService;
+
+
+
 
     private ItemDO convertItemDOFromItemMode(ItemModel itemModel){
         if (itemModel == null){
@@ -106,6 +111,7 @@ public class ItemServiceImpl implements ItemService {
         if (promoModel != null && promoModel.getStatus().intValue() !=3){
             itemModel.setPromoModel(promoModel);
         }
+
           return itemModel;
 
     }

@@ -7,6 +7,8 @@ import com.miaoshaproject.dataobject.UserDO;
 import com.miaoshaproject.dataobject.UserpasswordDO;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
+
+import com.miaoshaproject.service.PromoService;
 import com.miaoshaproject.service.UserService;
 import com.miaoshaproject.service.model.UserModel;
 import com.miaoshaproject.validator.ValidationResult;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
    private ValidatorImpl validatorImpl;
+    @Autowired
+
+    private PromoService promoService;
 
     @Override
     public  UserModel getUserById(Integer id){
@@ -55,12 +60,12 @@ public class UserServiceImpl implements UserService {
         if (result.isHasErrors()){
             throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
         }
-       /*if (StringUtils.isEmpty(userModel.getName())
+       if (StringUtils.isEmpty(userModel.getName())
              || userModel.getGender() == null
               || userModel.getAge() == null
               || StringUtils.isEmpty(userModel.getTelphone())){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
-        }*/
+        }
 
         //实现model-》dataobject方法
         UserDO userDO = convertFromModel(userModel);

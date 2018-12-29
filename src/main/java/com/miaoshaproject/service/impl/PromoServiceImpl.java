@@ -7,13 +7,14 @@ import com.miaoshaproject.service.model.PromoModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-
-public class PromoServiceImpl implements PromoService {
+@Service
+public class PromoServiceImpl implements PromoService{
     @Autowired
     private PromoDOMapper promoDOMapper;
-    @Override
+   @Override
     public PromoModel getPromoByItemId(Integer itemId) {
         //获取对应商品的秒杀活动信息
         PromoDO promoDO = promoDOMapper.selectByItemId(itemId);
@@ -34,6 +35,9 @@ public class PromoServiceImpl implements PromoService {
 
         return promoModel;
     }
+
+
+
     private PromoModel convertFromDataObject(PromoDO promoDO){
         if (promoDO == null) {
             return null;
@@ -46,4 +50,6 @@ public class PromoServiceImpl implements PromoService {
             return promoModel;
 
     }
+
+
 }
